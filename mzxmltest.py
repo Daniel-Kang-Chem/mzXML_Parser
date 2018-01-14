@@ -1,4 +1,4 @@
-from pyteomics import mzxml,pepxml
+from pyteomics import mzxml, pepxml
 mzxmlFile = mzxml.read("B2_IDA.mzXML")
 pepxmlFile = pepxml.read("pepXML/B2_IDA_comet_tandem_irt_scored_ipro.pep.xml")
 experiments = []
@@ -13,17 +13,15 @@ while b:
  b = pepxmlFile.next()
 print(experiments)
 
-def filter(xmlfile, property, value):
- item = xmlfile.next()
-
- switch (property):
-  case 'retention_time':
-   filter_property = ('retention_time_sec',value)
-   break
-  case 'charge':
-   filter_property = ('assumed_charge', value)
-   break
-
- while item:
-  if (item[filter_property[0]] == value):
-   
+def filter_by_property(xmlfile, property, value):
+  curScan = xmlfile.next()
+  matched_scans = []
+  if property == 'retention_time':
+    filter_property = 'retention_time_sec'
+  if property == 'charge': 
+    filter_property = 'assumed_charge'
+  while curScan:
+    if (curScan[filter_property] == value):
+      matched_scans.append(curScan['index'])
+    curScan = xmlfile.next()
+  return matched_scans
