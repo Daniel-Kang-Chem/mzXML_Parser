@@ -1,0 +1,14 @@
+from pyopenms import *
+
+mzXML = MzXMLFile()
+exp = MSExperiment()
+exp_picked = MSExperiment()
+print(exp.getMinRT())
+print(exp.getMaxRT())
+params = Param()
+
+a = MSSpectrum()
+mzXML.load("../data/B2_IDA.mzXML",exp)
+gf = GaussFilter()
+gf.filterExperiment(exp)
+mzXML.store("../data/B2_IDA.mzXML",exp)
